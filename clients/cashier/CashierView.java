@@ -21,7 +21,7 @@ public class CashierView implements Observer
   
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
-  private static final String CLEAR  = "Clear";
+  private static final String CLEAR  = "Clear";     ////
   private static final String BOUGHT = "Bought/Pay";
  
   
