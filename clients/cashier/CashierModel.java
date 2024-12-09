@@ -1,6 +1,7 @@
 package clients.cashier;
 
 import catalogue.Basket;
+import catalogue.BetterBasket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.*;
@@ -54,18 +55,18 @@ public class CashierModel extends Observable
    * Check if the product is in Stock
    * @param productNum The product number
    */
-  public void doCheck(String productNum )
+  public void doCheck(String productNum, int buyQuantity )
   {
     String theAction = "";
     theState  = State.process;                  // State process
     pn  = productNum.trim();                    // Product no.
-    int    amount  = 1;                         //  & quantity
+    //int    amount  = 1;                         //  & quantity
     try
     {
       if ( theStock.exists( pn ) )              // Stock Exists?
       {                                         // T
         Product pr = theStock.getDetails(pn);   //  Get details
-        if ( pr.getQuantity() >= amount )       //  In stock?
+        if ( pr.getQuantity() >= 1 )       //  In stock?
         {                                       //  T
           theAction =                           //   Display 
             String.format( "%s : %7.2f (%2d) ", //
@@ -73,7 +74,7 @@ public class CashierModel extends Observable
               pr.getPrice(),                    //    price
               pr.getQuantity() );               //    quantity     
           theProduct = pr;                      //   Remember prod.
-          theProduct.setQuantity( amount );     //    & quantity
+          theProduct.setQuantity( buyQuantity );     //    & quantity
           theState = State.checked;             //   OK await BUY 
         } else {                                //  F
           theAction =                           //   Not in Stock
@@ -113,7 +114,7 @@ public class CashierModel extends Observable
         {                                       // T
           makeBasketIfReq();                    //  new Basket ?
           theBasket.add( theProduct );          //  Add to bought
-          theAction = "Purchased " +            //    details
+          theAction = "Purchased" +            //    details
                   theProduct.getDescription();  //
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock
@@ -156,9 +157,17 @@ public class CashierModel extends Observable
     theBasket = null;
     setChanged(); notifyObservers(theAction); // Notify
   }
+  
+ public void clearBasket()  {
+	 theBasket =null;
+	 theState = State.process;
+	 setChanged();
+	 notifyObservers("All fields are cleared. New orders can be processed.");
+	 
+ }
 
   /**
-   * ask for update of view callled at start of day
+   * ask for update of view called at start of day
    * or after system reset
    */
   public void askForUpdate()
@@ -190,9 +199,9 @@ public class CashierModel extends Observable
    * return an instance of a new Basket
    * @return an instance of a new Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBasket()       //////
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
   

@@ -8,6 +8,8 @@ import middle.StockReader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,7 +17,8 @@ import java.util.Observer;
  * Implements the Customer view.
  */
 
-public class CustomerView implements Observer
+// public class CustomerView implements Observer
+public class CustomerView implements PropertyChangeListener 
 {
   class Name                              // Names of buttons
   {
@@ -32,8 +35,9 @@ public class CustomerView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( Name.CHECK );
+  private final JButton     theBtCheckName = new JButton("Search");
   private final JButton     theBtClear = new JButton( Name.CLEAR );
-
+  private CustomerModel model;
   private Picture thePicture = new Picture(80,80);
   private StockReader theStock   = null;
   private CustomerController cont= null;
@@ -70,9 +74,16 @@ public class CustomerView implements Observer
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
-    cp.add( theBtCheck );                           //  Add to canvas
-
-    theBtClear.setBounds( 16, 25+60*1, 80, 40 );    // Clear button
+    cp.add( theBtCheck );       //  Add to canvas
+    
+    theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );      
+    theBtCheckName.setBackground(Color.BLUE);
+    theBtCheckName.setBackground(Color.RED);
+    theBtCheckName.addActionListener(                     // Call back code
+    		e -> cont.doCheckByName ( theInput.getText() ) );
+    cp.add( theBtCheckName );    //  Add to canvas
+    
+    theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Clear button            ////
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas
@@ -91,8 +102,8 @@ public class CustomerView implements Observer
     cp.add( theSP );                                //  Add to canvas
     theSP.getViewport().add( theOutput );           //  In TextArea
 
-    thePicture.setBounds( 16, 25+60*2, 80, 80 );   // Picture area
-    cp.add( thePicture );                           //  Add to canvas
+    thePicture.setBounds( 16, 25+60*3, 80, 80 );   // Picture area
+    cp.add( thePicture );                           //  Add to canvas     ////
     thePicture.clear();
     
     rootWindow.setVisible( true );                  // Make visible);
@@ -108,27 +119,53 @@ public class CustomerView implements Observer
   {
     cont = c;
   }
-
+  
+  public void setModel( CustomerModel m )        ////
+  {
+    model = m;
+  }
   /**
    * Update the view
    * @param modelC   The observed model
    * @param arg      Specific args 
    */
    
-  public void update( Observable modelC, Object arg )
-  {
-    CustomerModel model  = (CustomerModel) modelC;
-    String        message = (String) arg;
-    theAction.setText( message );
-    ImageIcon image = model.getPicture();  // Image of product
-    if ( image == null )
-    {
-      thePicture.clear();                  // Clear picture
-    } else {
-      thePicture.set( image );             // Display picture
-    }
-    theOutput.setText( model.getBasket().getDetails() );
-    theInput.requestFocus();               // Focus is here
-  }
+	/*
+	 * public void update( Observable modelC, Object arg ) { CustomerModel model =
+	 * (CustomerModel) modelC; String message = (String) arg; theAction.setText(             ////
+	 * message ); ImageIcon image = model.getPicture(); // Image of product if (
+	 * image == null ) { thePicture.clear(); // Clear picture } else {
+	 * thePicture.set( image ); // Display picture } theOutput.setText(
+	 * model.getBasket().getDetails() ); theInput.requestFocus(); // Focus is here }
+	 */
+
+@Override
+public void propertyChange(PropertyChangeEvent evt) {             ////
+	String proName = evt.getPropertyName();
+	String oldValue = (String) evt.getOldValue();
+	String newValue = (String) evt.getNewValue();
+	theAction.setText( newValue );
+	
+	switch(proName) {
+	case "doCheck":
+		ImageIcon image = model.getPicture();
+		if ( image == null )
+	    {
+	      thePicture.clear();                  // Clear picture
+	    } else {
+	      thePicture.set( image );             // Display picture
+	    }
+	    theOutput.setText( model.getBasket().getDetails() );
+	    theInput.requestFocus(); 
+		break;
+	case "doClear":
+		thePicture.clear();
+		theInput.setText("");
+		theOutput.setText("");
+		theAction.setText("Enter Product Number: ");
+		break; 
+	}
+	
+}
 
 }

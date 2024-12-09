@@ -21,16 +21,21 @@ public class CashierView implements Observer
   
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
+  private static final String CLEAR  = "Clear";
   private static final String BOUGHT = "Bought/Pay";
-
+ 
+  
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
   private final JTextField  theInput   = new JTextField();
+  private final JTextField  buyQuantity   = new JTextField(); //////////
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
+  private final JButton     theBtClear   = new JButton( CLEAR );
   private final JButton     theBtBought= new JButton( BOUGHT );
+  
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
@@ -68,7 +73,7 @@ public class CashierView implements Observer
     
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText() ) );
+      e -> cont.doCheck( theInput.getText(), Integer.parseInt(buyQuantity.getText()) ) );
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
@@ -84,9 +89,17 @@ public class CashierView implements Observer
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
+    
+    buyQuantity.setBounds( 300, 50, 80, 40 );         // Input Area
+    buyQuantity.setText("");                           // Blank
+    cp.add( buyQuantity );                             //  Add to canvas
+    
+    theBtClear.setBounds(16, 25 + 60 * 2, 80, 40);     // Clear Button
+    theBtClear.addActionListener(e -> cont.doClearTexts());                     // Call back code
+    cp.add(theBtClear);                               // Add to canvas
 
-    theInput.setBounds( 110, 50, 270, 40 );         // Input Area
-    theInput.setText("");                           // Blank
+    theInput.setBounds( 110, 50, 170, 40 );         // Input Area
+    theInput.setText("1");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
@@ -97,7 +110,16 @@ public class CashierView implements Observer
     rootWindow.setVisible( true );                  // Make visible
     theInput.requestFocus();                        // Focus is here
   }
-
+  
+  public void clearTexts() 
+  {
+  	theInput.setText("");
+  	buyQuantity.setText("1");
+  	theOutput.setText("");
+  	theAction.setText("");
+  	theInput.requestFocus();
+  }
+  
   /**
    * The controller object, used so that an interaction can be passed to the controller
    * @param c   The controller
@@ -126,6 +148,9 @@ public class CashierView implements Observer
       theOutput.setText( basket.getDetails() );
     
     theInput.requestFocus();               // Focus is here
+    
+    if(message.equals("!!! Not in stock1") || message.contains("Purchased")) {
+    	buyQuantity.setText("1");
+    }
   }
-
 }
