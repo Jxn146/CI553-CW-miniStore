@@ -12,7 +12,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
-
 /**
  * Implements the Customer view.
  */
@@ -41,6 +40,10 @@ public class CustomerView implements PropertyChangeListener
   private Picture thePicture = new Picture(80,80);
   private StockReader theStock   = null;
   private CustomerController cont= null;
+  
+  private static final Color DARK_PINK = new Color(245, 66, 147);
+  private static final Color MAGENTA = new Color(255, 0, 255);
+  private static final Color SOFT_BLUE = new Color(70, 130, 180);
 
   /**
    * Construct the view
@@ -64,26 +67,31 @@ public class CustomerView implements PropertyChangeListener
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
+ // Set the background color of the content pane
+    cp.setBackground(new Color(37, 107, 122)); // Light gray background
 
-    Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
+    Font f = new Font("Rockwell",Font.PLAIN,12);  // Font f is
     
-    pageTitle.setBounds( 110, 0 , 270, 20 );       
-    pageTitle.setText( "Search products" );                        
+    pageTitle.setBounds( 110, 10 , 270, 20 );       
+    pageTitle.setText( "Search products" ); 
+    pageTitle.setFont(new Font("Algerian", Font.BOLD, 18)); //increase font size and customize font style (eg. bold, rockwell)
+    pageTitle.setForeground(new Color(237, 192, 225));
     cp.add( pageTitle );
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
+    theBtCheck.setBackground(DARK_PINK);
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
     cp.add( theBtCheck );       //  Add to canvas
     
-    theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );      
-    theBtCheckName.setBackground(Color.BLUE);
-    theBtCheckName.setBackground(Color.RED);
+    theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );  
+    theBtCheckName.setBackground(DARK_PINK);
     theBtCheckName.addActionListener(                     // Call back code
     		e -> cont.doCheckByName ( theInput.getText() ) );
     cp.add( theBtCheckName );    //  Add to canvas
     
     theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Clear button            ////
+    theBtClear.setBackground(DARK_PINK);
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas
