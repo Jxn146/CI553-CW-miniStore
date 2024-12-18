@@ -15,13 +15,18 @@ public class NameToNumber extends HashMap<String, String>{
 		put("0007", "USB driver");
 	}
 
-	public <T, E> T getNumberByName( Map <T,E> map, E value)
-	{
-		for (Entry<T,E> entry : map.entrySet()) {
-			if (Objects.equals(value, entry.getValue())) {
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
+	// Method to get a number by name with case-insensitive comparison
+    public <T, E> T getNumberByName(Map<T, E> map, E value) {
+        for (Entry<T, E> entry : map.entrySet()) {
+            if (value instanceof String && entry.getValue() instanceof String) {
+                // Perform a case-insensitive comparison
+                if (((String) value).equalsIgnoreCase((String) entry.getValue())) {
+                    return entry.getKey();
+                }
+            } else if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 }

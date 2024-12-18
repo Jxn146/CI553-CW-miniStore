@@ -25,8 +25,8 @@ public class CustomerView implements PropertyChangeListener
     public static final String CLEAR  = "Clear";
   }
 
-  private static final int H = 300;       // Height of window pixels
-  private static final int W = 400;       // Width  of window pixels
+  private static final int H = 330;       // Height of window pixels
+  private static final int W = 420;       // Width  of window pixels
 
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
@@ -42,8 +42,8 @@ public class CustomerView implements PropertyChangeListener
   private CustomerController cont= null;
   
   private static final Color DARK_PINK = new Color(245, 66, 147);
-  private static final Color MAGENTA = new Color(255, 0, 255);
-  private static final Color SOFT_BLUE = new Color(70, 130, 180);
+  private static final Color LIGHT_PURPLE = new Color(206, 174, 214);
+  private static final Color PURPLE = new Color(89, 15, 107);
 
   /**
    * Construct the view
@@ -67,10 +67,18 @@ public class CustomerView implements PropertyChangeListener
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
- // Set the background color of the content pane
+    //set the background color of the content pane
     cp.setBackground(new Color(37, 107, 122)); // Light gray background
 
-    Font f = new Font("Rockwell",Font.PLAIN,12);  // Font f is
+    Font f = new Font("Rockwell",Font.PLAIN,14); 
+    theAction.setFont(f); //applying font to theAction
+    theInput.setFont(f);  //applying font to theInput
+    theOutput.setFont(f); //applying font to theOutput
+    
+    theAction.setForeground(LIGHT_PURPLE);        //setting text color for the action label
+    //theInput.setForeground(Color.GREEN);       //setting text color for the input text field
+    theOutput.setForeground(PURPLE);    //setting text color for the output text area
+    
     
     pageTitle.setBounds( 110, 10 , 270, 20 );       
     pageTitle.setText( "Search products" ); 
@@ -79,18 +87,21 @@ public class CustomerView implements PropertyChangeListener
     cp.add( pageTitle );
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
+    theBtCheck.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtCheck.setBackground(DARK_PINK);
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
     cp.add( theBtCheck );       //  Add to canvas
     
     theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );  
+    theBtCheckName.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtCheckName.setBackground(DARK_PINK);
     theBtCheckName.addActionListener(                     // Call back code
     		e -> cont.doCheckByName ( theInput.getText() ) );
     cp.add( theBtCheckName );    //  Add to canvas
     
     theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Clear button            ////
+    theBtClear.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtClear.setBackground(DARK_PINK);
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
@@ -157,15 +168,26 @@ public void propertyChange(PropertyChangeEvent evt) {             ////
 	switch(proName) {
 	case "doCheck":
 		ImageIcon image = model.getPicture();
-		if ( image == null )
-	    {
-	      thePicture.clear();                  // Clear picture
+	    if (image == null) {
+	        thePicture.clear(); // Clear picture
 	    } else {
-	      thePicture.set( image );             // Display picture
+	        thePicture.set(image); // Display picture
 	    }
-	    theOutput.setText( model.getBasket().getDetails() );
-	    theInput.requestFocus(); 
-		break;
+
+	    // Get the product ID by name using NameToNumber
+	    NameToNumber nameToNumber = new NameToNumber();
+	    String input = theInput.getText().trim();
+	    String productId = nameToNumber.getNumberByName(nameToNumber, input);
+
+	    if (productId != null) {
+	        theAction.setText("Product found: ID = " + productId + ", Name = " + input);
+	    } else {
+	        theAction.setText("No product found for: " + input);
+	    }
+
+	    theOutput.setText(model.getBasket().getDetails());
+	    theInput.requestFocus();
+	    break;
 	case "doClear":
 		thePicture.clear();
 		theInput.setText("");
