@@ -18,8 +18,8 @@ public class BackDoorView implements Observer
   private static final String CLEAR    = "Clear";
   private static final String QUERY    = "Query";
  
-  private static final int H = 300;       // Height of window pixels
-  private static final int W = 400;       // Width  of window pixels
+  private static final int H = 330;       // Height of window pixels
+  private static final int W = 420;       // Width  of window pixels
 
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
@@ -33,6 +33,10 @@ public class BackDoorView implements Observer
   
   private StockReadWriter theStock     = null;
   private BackDoorController cont= null;
+  
+  private static final Color DARK_PINK = new Color(245, 66, 147);
+  private static final Color LIGHT_PURPLE = new Color(206, 174, 214);
+  private static final Color PURPLE = new Color(89, 15, 107);
 
   /**
    * Construct the view
@@ -55,25 +59,42 @@ public class BackDoorView implements Observer
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
+ // set the background color of the content pane
+    cp.setBackground(new Color(130, 62, 25)); // Light gray background
     
-    Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
+    Font f = new Font("Rockwell",Font.PLAIN,14);  // Font f is
+    theAction.setFont(f); //applying font to theAction
+    theOutput.setFont(f); //applying font to theOutput
+    
+    theAction.setForeground(LIGHT_PURPLE);        //setting text color for the action label
+    //theInput.setForeground(Color.GREEN);       //setting text color for the input text field
+    theOutput.setForeground(PURPLE);    //setting text color for the output text area
 
-    pageTitle.setBounds( 110, 0 , 270, 20 );       
+
+    pageTitle.setBounds( 110, 10 , 270, 20 );       
+    pageTitle.setFont(new Font("Algerian", Font.BOLD, 18)); //increase font size and customize font style (eg. bold, rockwell)
+    pageTitle.setForeground(new Color(237, 192, 225));
     pageTitle.setText( "Staff check and manage stock" );                        
     cp.add( pageTitle );
     
     theBtQuery.setBounds( 16, 25+60*0, 80, 40 );    // Buy button 
+    theBtQuery.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtQuery.setBackground(DARK_PINK);
     theBtQuery.addActionListener(                   // Call back code
       e -> cont.doQuery( theInput.getText() ) );
     cp.add( theBtQuery );                           //  Add to canvas
 
     theBtRStock.setBounds( 16, 25+60*1, 80, 40 );   // Check Button
+    theBtRStock.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtRStock.setBackground(DARK_PINK);
     theBtRStock.addActionListener(                  // Call back code
       e -> cont.doRStock( theInput.getText(),
                           theInputNo.getText() ) );
     cp.add( theBtRStock );                          //  Add to canvas
 
     theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Buy button 
+    theBtClear.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtClear.setBackground(DARK_PINK);
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas

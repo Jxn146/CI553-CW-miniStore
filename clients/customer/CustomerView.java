@@ -21,7 +21,7 @@ public class CustomerView implements PropertyChangeListener
 {
   class Name                              // Names of buttons
   {
-    public static final String CHECK  = "Check";
+    public static final String CHECK  = "<html>Find by -><br>Product ID</html>";
     public static final String CLEAR  = "Clear";
   }
 
@@ -34,7 +34,7 @@ public class CustomerView implements PropertyChangeListener
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( Name.CHECK );
-  private final JButton     theBtCheckName = new JButton("Search");
+  private final JButton     theBtCheckName = new JButton("<html>Find by -><br>Product name</html>");
   private final JButton     theBtClear = new JButton( Name.CLEAR );
   private CustomerModel model;
   private Picture thePicture = new Picture(80,80);
@@ -80,21 +80,23 @@ public class CustomerView implements PropertyChangeListener
     theOutput.setForeground(PURPLE);    //setting text color for the output text area
     
     
-    pageTitle.setBounds( 110, 10 , 270, 20 );       
-    pageTitle.setText( "Search products" ); 
+    pageTitle.setBounds( 130, 10 , 270, 20 );       
+    pageTitle.setText( "Search, Select, Shop !!" ); 
     pageTitle.setFont(new Font("Algerian", Font.BOLD, 18)); //increase font size and customize font style (eg. bold, rockwell)
     pageTitle.setForeground(new Color(237, 192, 225));
     cp.add( pageTitle );
 
-    theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
+    theBtCheck.setBounds( 16, 25+60*0, 100, 40 );    // Check button
     theBtCheck.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtCheck.setMargin(new Insets(0, 0, 0, 0)); // Remove all padding
     theBtCheck.setBackground(DARK_PINK);
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
     cp.add( theBtCheck );       //  Add to canvas
     
-    theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );  
+    theBtCheckName.setBounds( 16, 25+60*1, 100, 40 );  
     theBtCheckName.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtCheckName.setMargin(new Insets(0, 0, 0, 0)); // Remove all padding
     theBtCheckName.setBackground(DARK_PINK);
     theBtCheckName.addActionListener(                     // Call back code
     		e -> cont.doCheckByName ( theInput.getText() ) );
@@ -102,20 +104,21 @@ public class CustomerView implements PropertyChangeListener
     
     theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Clear button            ////
     theBtClear.setFont(new Font("Georgia", Font.PLAIN, 12));
+    theBtClear.setMargin(new Insets(0, 0, 0, 0)); // Remove all padding
     theBtClear.setBackground(DARK_PINK);
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
     cp.add( theBtClear );                           //  Add to canvas
 
-    theAction.setBounds( 110, 25 , 270, 20 );       // Message area
+    theAction.setBounds( 130, 25 , 270, 20 );       // Message area
     theAction.setText( " " );                       // blank
     cp.add( theAction );                            //  Add to canvas
 
-    theInput.setBounds( 110, 50, 270, 40 );         // Product no area
+    theInput.setBounds( 130, 50, 270, 40 );         // Product no area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
     
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theSP.setBounds( 130, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas
@@ -182,7 +185,7 @@ public void propertyChange(PropertyChangeEvent evt) {             ////
 	    if (productId != null) {
 	        theAction.setText("Product found: ID = " + productId + ", Name = " + input);
 	    } else {
-	        theAction.setText("No product found for: " + input);
+	        theAction.setText("Product found for: " + input);
 	    }
 
 	    theOutput.setText(model.getBasket().getDetails());

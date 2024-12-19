@@ -172,7 +172,7 @@ public class CashierModel extends Observable
    */
   public void askForUpdate()
   {
-    setChanged(); notifyObservers("Welcome");
+    setChanged(); notifyObservers("Welcome :)");
   }
   
   /**

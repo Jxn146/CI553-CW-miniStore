@@ -19,10 +19,10 @@ public class CashierView implements Observer
   private static final int H = 330;       // Height of window pixels
   private static final int W = 420;       // Width  of window pixels
   
-  private static final String CHECK  = "Check";
-  private static final String BUY    = "Buy";
+  private static final String CHECK  = "<html>Check -><br>Availability<html>";
+  private static final String BUY    = "<html>Buy -><br>Product<html>";
   private static final String CLEAR  = "Clear";     ////
-  private static final String BOUGHT = "Bought/Pay";
+  private static final String BOUGHT = "<html>Navigate<br>to Packaging<html>";
  
   
   private final JLabel      pageTitle  = new JLabel();
@@ -82,13 +82,13 @@ public class CashierView implements Observer
     //theInput.setForeground(Color.GREEN);       //setting text color for the input text field
     theOutput.setForeground(PURPLE);    //setting text color for the output text area
 
-    pageTitle.setBounds( 110, 10 , 270, 20 );       
-    pageTitle.setText( "Thank You for Shopping at MiniStrore" ); 
+    pageTitle.setBounds( 130, 10 , 270, 20 );       
+    pageTitle.setText("Ready to Go?" ); 
     pageTitle.setFont(new Font("Algerian", Font.BOLD, 18)); //increase font size and customize font style (eg. bold, rockwell)
     pageTitle.setForeground(new Color(237, 192, 225));
     cp.add( pageTitle );  
     
-    theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
+    theBtCheck.setBounds( 16, 25+60*0, 100, 40 );    // Check Button
     theBtCheck.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtCheck.setBackground(DARK_PINK);
     theBtCheck.addActionListener(                   // Call back code
@@ -102,18 +102,18 @@ public class CashierView implements Observer
       e -> cont.doBuy() );
     cp.add( theBtBuy );                             //  Add to canvas
 
-    theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Bought Button
+    theBtBought.setBounds( 16, 25+60*3, 100, 40 );   // Bought Button
     theBtBought.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtBought.setBackground(DARK_PINK);
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
     cp.add( theBtBought );                          //  Add to canvas
 
-    theAction.setBounds( 110, 25 , 270, 20 );       // Message area
+    theAction.setBounds( 130, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
     
-    buyQuantity.setBounds( 300, 50, 80, 40 );         // Input Area
+    buyQuantity.setBounds( 320, 50, 80, 40 );         // Input Area
     buyQuantity.setText("1");                           // Blank
     cp.add( buyQuantity );                             //  Add to canvas
     
@@ -123,11 +123,11 @@ public class CashierView implements Observer
     theBtClear.addActionListener(e -> cont.doClearTexts());                     // Call back code
     cp.add(theBtClear);                               // Add to canvas
 
-    theInput.setBounds( 110, 50, 170, 40 );         // Input Area
+    theInput.setBounds( 130, 50, 170, 40 );         // Input Area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
 
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theSP.setBounds( 130, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas
@@ -141,7 +141,7 @@ public class CashierView implements Observer
   	theInput.setText("");
   	buyQuantity.setText("1");
   	theOutput.setText("");
-  	theAction.setText("");
+  	theAction.setText("Welcome :)");
   	theInput.requestFocus();
   }
   
@@ -168,7 +168,7 @@ public class CashierView implements Observer
     theAction.setText( message );
     Basket basket = model.getBasket();
     if ( basket == null )
-      theOutput.setText( "Customers order" );
+      theOutput.setText( "Customers order details" );
     else
       theOutput.setText( basket.getDetails() );
     

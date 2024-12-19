@@ -133,7 +133,7 @@ public class PackingModel extends Observable
         theBasket.set( null );                //  packed
         int no = basket.getOrderNum();        //  Order no
         theOrder.informOrderPacked( no );     //  Tell system
-        theAction = "";                       //  Inform picker
+        theAction = "Thank You for shopping at Ministore :)";                       //  Inform picker
         worker.free();                        //  Can pack some more
       } else {                                // F 
         theAction = "No order";       //   Not packed order
