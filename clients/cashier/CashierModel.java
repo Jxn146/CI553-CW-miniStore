@@ -114,7 +114,7 @@ public class CashierModel extends Observable
         {                                       // T
           makeBasketIfReq();                    //  new Basket ?
           theBasket.add( theProduct );          //  Add to bought
-          theAction = "Purchased" +            //    details
+          theAction = "Purchased " +            //    details
                   theProduct.getDescription();  //
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock

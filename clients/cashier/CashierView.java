@@ -1,6 +1,7 @@
 package clients.cashier;
 
 import catalogue.Basket;
+import clients.customer.NameToNumber;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
@@ -16,8 +17,8 @@ import java.util.Observer;
  */
 public class CashierView implements Observer
 {
-  private static final int H = 330;       // Height of window pixels
-  private static final int W = 420;       // Width  of window pixels
+  private static final int H = 350;       // Height of window pixels
+  private static final int W = 430;       // Width  of window pixels
   
   private static final String CHECK  = "<html>Check -><br>Availability<html>";
   private static final String BUY    = "<html>Buy -><br>Product<html>";
@@ -33,6 +34,7 @@ public class CashierView implements Observer
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
+  private final JButton theBtRemoveLast = new JButton("Remove Last");
   private final JButton     theBtClear   = new JButton( CLEAR );
   private final JButton     theBtBought= new JButton( BOUGHT );
   
@@ -91,8 +93,19 @@ public class CashierView implements Observer
     theBtCheck.setBounds( 16, 25+60*0, 100, 40 );    // Check Button
     theBtCheck.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtCheck.setBackground(DARK_PINK);
-    theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText(), Integer.parseInt(buyQuantity.getText()) ) );
+    theBtCheck.addActionListener (e -> {
+        String input = theInput.getText().trim();//retrieve the user input and remove leading/trailing spaces
+        NameToNumber nameToNumber = new NameToNumber(); //an instance of NameToNumber for product lookup
+        String productNumber = nameToNumber.getNumberByName(nameToNumber, input); //to perform case-insensitive lookup to find the corresponding product number
+        if (productNumber == null) {//if the input is already a product number, use it directly
+            productNumber = input; //use input as the product number if no match by name
+        } try {
+            int quantity = Integer.parseInt(buyQuantity.getText()); //get the quantity from the input field
+            cont.doCheck(productNumber, quantity); //passes the resolved product number and quantity to the controller
+        } catch (NumberFormatException ex) {
+            theAction.setText("Invalid quantity entered!");//display an error message if the quantity is invalid
+        }
+         });
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
@@ -101,8 +114,14 @@ public class CashierView implements Observer
     theBtBuy.addActionListener(                     // Call back code
       e -> cont.doBuy() );
     cp.add( theBtBuy );                             //  Add to canvas
+    
+//    theBtRemoveLast.setBounds( 16, 25 + 60 * 4, 100, 40 );  // Adjust placement to fit below existing buttons
+//    theBtRemoveLast.setFont(new Font("Georgia", Font.PLAIN, 12));
+//    theBtRemoveLast.setBackground(DARK_PINK);
+//    theBtRemoveLast.addActionListener(e -> cont.doRemoveLast());  // Call back to controller's method
+//    cp.add(theBtRemoveLast);  // Add to the content pane
 
-    theBtBought.setBounds( 16, 25+60*3, 100, 40 );   // Bought Button
+    theBtBought.setBounds( 16, 25+60*3 , 100, 40);   // Bought Button
     theBtBought.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtBought.setBackground(DARK_PINK);
     theBtBought.addActionListener(                  // Call back code
@@ -174,7 +193,7 @@ public class CashierView implements Observer
     
     theInput.requestFocus();               // Focus is here
     
-    if(message.equals("!!! Not in stock:(") || message.contains("Purchased")) {
+    if(message.equals("!!! Not in stock:(") || message.contains("Purchased ")) {
     	buyQuantity.setText("1");
     }
   }
