@@ -34,7 +34,6 @@ public class CashierView implements Observer
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
-  private final JButton theBtRemoveLast = new JButton("Remove Last");
   private final JButton     theBtClear   = new JButton( CLEAR );
   private final JButton     theBtBought= new JButton( BOUGHT );
   
@@ -94,18 +93,30 @@ public class CashierView implements Observer
     theBtCheck.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtCheck.setBackground(DARK_PINK);
     theBtCheck.addActionListener (e -> {
-        String input = theInput.getText().trim();//retrieve the user input and remove leading/trailing spaces
-        NameToNumber nameToNumber = new NameToNumber(); //an instance of NameToNumber for product lookup
-        String productNumber = nameToNumber.getNumberByName(nameToNumber, input); //to perform case-insensitive lookup to find the corresponding product number
-        if (productNumber == null) {//if the input is already a product number, use it directly
-            productNumber = input; //use input as the product number if no match by name
-        } try {
-            int quantity = Integer.parseInt(buyQuantity.getText()); //get the quantity from the input field
-            cont.doCheck(productNumber, quantity); //passes the resolved product number and quantity to the controller
-        } catch (NumberFormatException ex) {
-            theAction.setText("Invalid quantity entered!");//display an error message if the quantity is invalid
-        }
-         });
+        String input =  theInput.getText().trim();//retrieve the user input and remove leading/trailing spaces
+     //check if the input is numeric (product number)
+        if (input.matches("\\d+")) { //regex to check if input contains only digits
+            try {
+                int quantity = Integer.parseInt(buyQuantity.getText()); // Parse quantity
+                cont.doCheck(input, quantity); //pass product number and quantity to the controller
+            } catch (NumberFormatException ex)  {
+                theAction.setText("Invalid quantity entered!"); //display error for invalid quantity
+            }
+        } else{ //handle input as a product name
+            NameToNumber nameToNumber = new NameToNumber(); //instance of NameToNumber
+            String productNumber = nameToNumber.getNumberByName(nameToNumber,input); //lookup product number by name
+
+            if (productNumber == null){ //if no match, assume input as a product number
+                productNumber = input;
+            }
+            try{
+                int quantity = Integer.parseInt(buyQuantity.getText()); //parse quantity
+                cont.doCheck(productNumber, quantity); //pass resolved product number and quantity to the controller
+            }catch (NumberFormatException ex)  {
+                theAction.setText("Invalid quantity entered!"); //display error for invalid quantity
+            }
+           }
+        });
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 

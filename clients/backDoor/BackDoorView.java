@@ -71,20 +71,20 @@ public class BackDoorView implements Observer
     theOutput.setForeground(PURPLE);    //setting text color for the output text area
 
 
-    pageTitle.setBounds( 110, 10 , 270, 20 );       
+    pageTitle.setBounds( 110, 10 , 270, 40 );       
     pageTitle.setFont(new Font("Algerian", Font.BOLD, 18)); //increase font size and customize font style (eg. bold, rockwell)
     pageTitle.setForeground(new Color(237, 192, 225));
-    pageTitle.setText( "Staff check and manage stock" );                        
+    pageTitle.setText( "<html>Staff check and<br> manage stock<html>" );                        
     cp.add( pageTitle );
     
-    theBtQuery.setBounds( 16, 25+60*0, 80, 40 );    // Buy button 
+    theBtQuery.setBounds( 16, 25+60*1, 80, 40 );    // Buy button 
     theBtQuery.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtQuery.setBackground(DARK_PINK);
     theBtQuery.addActionListener(                   // Call back code
       e -> cont.doQuery( theInput.getText() ) );
     cp.add( theBtQuery );                           //  Add to canvas
 
-    theBtRStock.setBounds( 16, 25+60*1, 80, 40 );   // Check Button
+    theBtRStock.setBounds( 16, 25+60*2, 80, 40 );   // Check Button
     theBtRStock.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtRStock.setBackground(DARK_PINK);
     theBtRStock.addActionListener(                  // Call back code
@@ -92,7 +92,7 @@ public class BackDoorView implements Observer
                           theInputNo.getText() ) );
     cp.add( theBtRStock );                          //  Add to canvas
 
-    theBtClear.setBounds( 16, 25+60*2, 80, 40 );    // Buy button 
+    theBtClear.setBounds( 16, 25+60*3, 80, 40 );    // Buy button 
     theBtClear.setFont(new Font("Georgia", Font.PLAIN, 12));
     theBtClear.setBackground(DARK_PINK);
     theBtClear.addActionListener(                   // Call back code
@@ -100,19 +100,19 @@ public class BackDoorView implements Observer
     cp.add( theBtClear );                           //  Add to canvas
 
  
-    theAction.setBounds( 110, 25 , 270, 20 );       // Message area
+    theAction.setBounds( 110, 48 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
-    theInput.setBounds( 110, 50, 120, 40 );         // Input Area
+    theInput.setBounds( 110, 70, 120, 40 );         // Input Area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
     
-    theInputNo.setBounds( 260, 50, 120, 40 );       // Input Area
+    theInputNo.setBounds( 260, 70, 120, 40 );       // Input Area
     theInputNo.setText("0");                        // 0
     cp.add( theInputNo );                           //  Add to canvas
 
-    theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
+    theSP.setBounds( 110, 120, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
     theOutput.setFont( f );                         //  Uses font  
     cp.add( theSP );                                //  Add to canvas

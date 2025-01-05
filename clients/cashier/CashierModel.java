@@ -8,6 +8,8 @@ import middle.*;
 
 import java.util.Observable;
 
+import javax.swing.JOptionPane;
+
 /**
  * Implements the Model of the cashier client
  */
@@ -116,6 +118,13 @@ public class CashierModel extends Observable
           theBasket.add( theProduct );          //  Add to bought
           theAction = "Purchased " +            //    details
                   theProduct.getDescription();  //
+          
+	       // Display a message to the user that the product was bought
+          JOptionPane.showMessageDialog(null, 
+        		  "Congratulations! 🎉 You've just purchased " 
+                          + theProduct.getDescription() + "\nGreat choice! 😊", 
+          "Purchase Successful", JOptionPane.INFORMATION_MESSAGE);
+          
         } else {                                // F
           theAction = "!!! Not in stock";       //  Now no stock
         }

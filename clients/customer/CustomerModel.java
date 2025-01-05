@@ -100,7 +100,7 @@ public class CustomerModel           ////
       e.getMessage() );
     }
     //setChanged(); notifyObservers(theAction);
-    pcs.firePropertyChange("doCheck","","theAction");
+    pcs.firePropertyChange("doCheck","","Product details");
   }
 
   /**

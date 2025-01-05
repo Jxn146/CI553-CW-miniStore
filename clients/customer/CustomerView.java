@@ -76,7 +76,6 @@ public class CustomerView implements PropertyChangeListener
     theOutput.setFont(f); //applying font to theOutput
     
     theAction.setForeground(LIGHT_PURPLE);        //setting text color for the action label
-    //theInput.setForeground(Color.GREEN);       //setting text color for the input text field
     theOutput.setForeground(PURPLE);    //setting text color for the output text area
     
     
@@ -171,26 +170,16 @@ public void propertyChange(PropertyChangeEvent evt) {             ////
 	switch(proName) {
 	case "doCheck":
 		ImageIcon image = model.getPicture();
-	    if (image == null) {
-	        thePicture.clear(); // Clear picture
+		if ( image == null )
+	    {
+	      thePicture.clear();                  // Clear picture
 	    } else {
-	        thePicture.set(image); // Display picture
+	      thePicture.set( image );             // Display picture
 	    }
-
-	    // Get the product ID by name using NameToNumber
-	    NameToNumber nameToNumber = new NameToNumber();
-	    String input = theInput.getText().trim();
-	    String productId = nameToNumber.getNumberByName(nameToNumber, input);
-
-	    if (productId != null) {
-	        theAction.setText("Product found: ID = " + productId + ", Name = " + input);
-	    } else {
-	        theAction.setText("Product found for: " + input);
-	    }
-
-	    theOutput.setText(model.getBasket().getDetails());
-	    theInput.requestFocus();
-	    break;
+	    theOutput.setText( model.getBasket().getDetails() );
+	    theInput.requestFocus(); 
+		break;
+	    
 	case "doClear":
 		thePicture.clear();
 		theInput.setText("");
@@ -198,7 +187,6 @@ public void propertyChange(PropertyChangeEvent evt) {             ////
 		theAction.setText("Enter Product Number: ");
 		break; 
 	}
-	
-}
 
+  }
 }
