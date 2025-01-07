@@ -33,7 +33,7 @@ public class PackingController
   public void doPacked()
   {
     model.doPacked();
-    mainApp.closeAllClients();
+    mainApp.closeAllClients(); //close beginMainApp screen
     mainApp.showGoodbyeScreen(middleFactory);//show Goodbye screen when packed button is clicked
   }
   

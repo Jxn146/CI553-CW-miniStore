@@ -150,13 +150,13 @@ public class Main
     exitButton.addActionListener(e -> System.exit(0)); // Exit the application
     panel.add(exitButton);
     
-    JButton backButton = new JButton("Back");
+    JButton backButton = new JButton("Back");//button to switch to back to the previous screen
     backButton.setFont(new Font("Algerian", Font.BOLD, 24)); // Change font style and size
     backButton.setForeground(PURPLE);
     backButton.setBackground(PINK);
-    backButton.setBounds(buttonX - 150, buttonY, buttonWidth, buttonHeight); // Positioned to the left of the Exit button
+    backButton.setBounds(buttonX - 150, buttonY, buttonWidth, buttonHeight); //positioned to the left of the Exit button
     backButton.addActionListener(e -> {
-        goodbyeWindow.setVisible(false); // Hide welcome screen
+        goodbyeWindow.setVisible(false); // Hide screen
         beginMainApp(mlf); // Start the main application
       });
     panel.add(backButton);

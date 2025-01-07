@@ -74,7 +74,7 @@ public class CashierView implements Observer
     cp.setBackground(new Color(37, 107, 122)); // Light gray background
 
 
-    Font f = new Font("Rockwell",Font.PLAIN,14);  // Font f is
+    Font f = new Font("Rockwell",Font.PLAIN,14);  
     theAction.setFont(f); //applying font to theAction
     theInput.setFont(f);  //applying font to theInput
     theOutput.setFont(f); //applying font to theOutput
@@ -166,7 +166,7 @@ public class CashierView implements Observer
     theInput.requestFocus();                        // Focus is here
   }
   
-  public void clearTexts() 
+  public void clearTexts()  //clears the text fields 
   {
   	theInput.setText("");
   	buyQuantity.setText("1");

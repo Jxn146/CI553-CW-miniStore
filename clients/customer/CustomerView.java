@@ -180,7 +180,7 @@ public void propertyChange(PropertyChangeEvent evt) {             ////
 	    theInput.requestFocus(); 
 		break;
 	    
-	case "doClear":
+	case "doClear":  // actions for clear button
 		thePicture.clear();
 		theInput.setText("");
 		theOutput.setText("");
